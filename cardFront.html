@@ -1,0 +1,59 @@
+<div class="question">{{Front}}</div>
+
+<textarea id="userCode" spellcheck="false" placeholder="Type your code here..."></textarea>
+
+<div id="solutionCode" style="position: absolute; left: -9999px; white-space: pre-wrap;">{{Back}}</div>
+
+<button type="button" id="checkBtn">Check Answer</button>
+
+<div id="diffOutput"></div>
+
+<script>
+document.getElementById('checkBtn').addEventListener('click', function() {
+    
+    // Clean strings: Remove carriage returns and convert non-breaking spaces Anki might use
+    const clean = str => {
+        return str.replace(/\r/g, '')
+                  .replace(/\u00A0/g, ' ') // Convert HTML &nbsp; to normal space
+                  .split('\n')
+                  .map(line => line.trimEnd()); // Removes spaces at the end of a line only
+    };
+    
+    // Read the user input from the textarea
+    const userLines = clean(document.getElementById('userCode').value);
+    
+    // Read the solution using innerText to grab the browser's visually formatted line breaks
+    const solutionLines = clean(document.getElementById('solutionCode').innerText);
+    
+    let outputHtml = "";
+    let isCorrect = true;
+    
+    const maxLines = Math.max(userLines.length, solutionLines.length);
+    
+    for (let i = 0; i < maxLines; i++) {
+        const uLine = userLines[i] !== undefined ? userLines[i] : "";
+        const sLine = solutionLines[i] !== undefined ? solutionLines[i] : "";
+        
+        // Escape < and > to prevent code from breaking the HTML rendering
+        const safeSLine = sLine.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        const safeULine = uLine.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        
+        // Compare exactly
+        if (uLine === sLine) {
+            // Render the correct line, or a non-breaking space if it's an empty line
+            outputHtml += `<div class="correct-line">✓ ${safeULine || "&nbsp;"}</div>`;
+        } else {
+            isCorrect = false;
+            outputHtml += `<div class="incorrect-line">✗ Expected: "${safeSLine}"<br>  Got:      "${safeULine}"</div>`;
+        }
+    }
+    
+    // Output the HTML
+    document.getElementById('diffOutput').innerHTML = outputHtml;
+    
+    // Provide a clear success message so you know to flip the card
+    if (isCorrect) {
+        document.getElementById('diffOutput').innerHTML += `<br><div style="color: #155724; font-weight: bold;">Perfect! Press Space/Enter to reveal the card and grade yourself.</div>`;
+    }
+});
+</script>
