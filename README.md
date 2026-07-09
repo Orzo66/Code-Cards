@@ -14,11 +14,11 @@ I created this card style for my 100Devs crew. It's a three field cardset that a
    c. Back (The correct solution code)
 4. Make sure you have **Coding Card** highlighted and then select **Cards** to edit the template.
 5. Paste in the files located in this repository in their correct positions.
-   a. frontTemplate goes in Front Template.
-   b. backTemplate goes in Back Template.
-   c. Styling goes under Styling.
+  /n a. frontTemplate goes in Front Template.
+  /n b. backTemplate goes in Back Template.
+  /n c. Styling goes under Styling.
 6. Hit **Save**
-7. Now, when you want to make a coding question, just make sure your card type is set to Coding Card, and you should be all set! See exmaple of look below.
+7. Now, when you want to make a coding question, just make sure your card type is set to Coding Card, and you should be all set! See example of look below.
 
 
 # Example:
